@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\Entities\Item;
+use App\Interfaces\CartInterface;
 use App\Interfaces\CheckoutInterface;
 use App\Interfaces\RepositoryInterface;
 use App\Rules\AbstractPriceRules;
@@ -52,5 +53,14 @@ class Checkout implements CheckoutInterface
         }
 
         return $total;
+    }
+
+    /**
+     * Get cart instance
+     * @return CartInterface
+     */
+    public function getCart(): CartInterface
+    {
+        return $this->cart;
     }
 }

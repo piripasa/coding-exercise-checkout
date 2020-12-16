@@ -136,4 +136,19 @@ class CheckoutTest extends TestCase
         $co->scan($this->items['D']);
         $this->assertEquals(115, $co->total());
     }
+
+    public function testCheckoutTotalAndCartTotalShouldNotMatchAfterPriceRulesApply()
+    {
+        $this->rulesRepository->add(new BundlePriceRule($this->priceRuleList));
+
+        $co = new Checkout($this->rulesRepository);
+        $co->scan($this->items['A']);
+        $this->assertEquals(50, $co->total());
+        $co->scan($this->items['A']);
+        $this->assertEquals(100, $co->total());
+        $co->scan($this->items['A']);
+        $this->assertEquals(130, $co->total());
+        $this->assertNotEquals(150, $co->total());
+        $this->assertEquals(150, $co->getCart()->subTotal());
+    }
 }

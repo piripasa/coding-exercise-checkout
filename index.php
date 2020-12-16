@@ -39,3 +39,4 @@ $co->scan($items['A']);
 echo "Scan 4 product (A)".PHP_EOL;
 $co->scan($items['A']);
 echo "The total price: ".$co->total().PHP_EOL;
+echo "Actual price: ".$co->getCart()->subTotal().PHP_EOL;
