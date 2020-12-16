@@ -76,3 +76,5 @@ $co->total();
  - [x] Scan item
  - [x] Get total
 
+### Todo
+ - [ ] Handle multiple same SKU rules
