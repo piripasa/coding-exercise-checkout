@@ -13,4 +13,6 @@ interface CheckoutInterface
     public function total();
 
     public function getCart(): CartInterface;
+
+    public function getSubTotal();
 }

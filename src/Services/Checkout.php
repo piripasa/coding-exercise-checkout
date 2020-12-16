@@ -8,12 +8,14 @@ use App\Entities\Item;
 use App\Interfaces\CartInterface;
 use App\Interfaces\CheckoutInterface;
 use App\Interfaces\RepositoryInterface;
+use App\Rules\AbstractCheckoutRules;
 use App\Rules\AbstractPriceRules;
 
 class Checkout implements CheckoutInterface
 {
     private $rulesRepository;
     private $cart;
+    private $total;
 
     /**
      * Checkout constructor.
@@ -24,6 +26,7 @@ class Checkout implements CheckoutInterface
     {
         $this->rulesRepository = $repository;
         $this->cart = new Cart();
+        $this->total = 0;
     }
 
     /**
@@ -41,18 +44,18 @@ class Checkout implements CheckoutInterface
      */
     public function total()
     {
-        $total = 0;
-        if (!empty($this->rulesRepository->getAll())) {
-            foreach ($this->rulesRepository->getAll() as $priceRule) {
-                if ($priceRule instanceof AbstractPriceRules) {
-                    $total = $priceRule->calculateTotal($this->cart);
-                }
+        $this->total = $this->cart->subTotal();
+
+        foreach ($this->rulesRepository->getAll() as $priceRule) {
+            if ($priceRule instanceof AbstractPriceRules) {
+                $this->total = $priceRule->calculateTotal($this->cart);
             }
-        } else {
-            $total = $this->cart->subTotal();
+            if ($priceRule instanceof AbstractCheckoutRules) {
+                $this->total = $priceRule->calculateTotal($this);
+            }
         }
 
-        return $total;
+        return $this->total;
     }
 
     /**
@@ -62,5 +65,10 @@ class Checkout implements CheckoutInterface
     public function getCart(): CartInterface
     {
         return $this->cart;
+    }
+
+    public function getSubTotal()
+    {
+        return $this->total;
     }
 }
