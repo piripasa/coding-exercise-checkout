@@ -41,10 +41,14 @@ class Checkout implements CheckoutInterface
     public function total()
     {
         $total = 0;
-        foreach ($this->rulesRepository->getAll() as $priceRule) {
-            if ($priceRule instanceof AbstractPriceRules) {
-                $total = $priceRule->calculateTotal($this->cart);
+        if (!empty($this->rulesRepository->getAll())) {
+            foreach ($this->rulesRepository->getAll() as $priceRule) {
+                if ($priceRule instanceof AbstractPriceRules) {
+                    $total = $priceRule->calculateTotal($this->cart);
+                }
             }
+        } else {
+            $total = $this->cart->subTotal();
         }
 
         return $total;

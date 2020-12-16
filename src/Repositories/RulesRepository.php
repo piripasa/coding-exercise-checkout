@@ -8,7 +8,7 @@ use App\Interfaces\RepositoryInterface;
 
 class RulesRepository implements RepositoryInterface
 {
-    private $rules;
+    private $rules = [];
 
     /**
      * Add rule to repository
