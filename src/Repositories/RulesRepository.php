@@ -8,14 +8,23 @@ use App\Interfaces\RepositoryInterface;
 
 class RulesRepository implements RepositoryInterface
 {
+    private $rules;
 
+    /**
+     * Add rule to repository
+     * @param $item
+     */
     public function add($item)
     {
-        // TODO: Implement add() method.
+        $this->rules[] = $item;
     }
 
-    public function getAll()
+    /**
+     * Get rules
+     * @return array
+     */
+    public function getAll(): array
     {
-        // TODO: Implement getAll() method.
+        return $this->rules;
     }
 }
