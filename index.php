@@ -5,6 +5,7 @@ require_once 'vendor/autoload.php';
 use App\Entities\Item;
 use App\Repositories\RulesRepository;
 use App\Rules\BundlePriceRule;
+use App\Rules\CheckoutPriceRule;
 use App\Services\Checkout;
 
 $items = [
@@ -27,6 +28,9 @@ $priceRuleList = [
 
 $rulesRepository = new RulesRepository();
 $rulesRepository->add(new BundlePriceRule($priceRuleList));
+
+//10% off the total if you spend over 200
+//$rulesRepository->add(new CheckoutPriceRule(200, 10));
 
 $co = new Checkout($rulesRepository);
 
