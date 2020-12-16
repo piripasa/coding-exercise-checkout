@@ -7,6 +7,7 @@ namespace Tests;
 use App\Entities\Item;
 use App\Repositories\RulesRepository;
 use App\Rules\BundlePriceRule;
+use App\Rules\CheckoutPriceRule;
 use App\Services\Checkout;
 use PHPUnit\Framework\TestCase;
 
@@ -150,5 +151,22 @@ class CheckoutTest extends TestCase
         $this->assertEquals(130, $co->total());
         $this->assertNotEquals(150, $co->total());
         $this->assertEquals(150, $co->getCart()->subTotal());
+    }
+
+    public function testCheckoutRuleIfSpendOverSomeAmount()
+    {
+        $this->rulesRepository->add(new BundlePriceRule($this->priceRuleList));
+        $this->rulesRepository->add(new CheckoutPriceRule(200, 10));
+
+        $co = new Checkout($this->rulesRepository);
+        $co->scan($this->items['A']);
+        $co->scan($this->items['A']);
+        $co->scan($this->items['A']);
+        $co->scan($this->items['A']);
+        $co->scan($this->items['B']);
+        $co->scan($this->items['C']);
+        $co->scan($this->items['D']);
+        $this->assertEquals(220.5, $co->total());
+        $this->assertEquals(265, $co->getCart()->subTotal());
     }
 }
