@@ -1,0 +1,30 @@
+version: '3'
+
+networks:
+  supermarket_checkout:
+    driver: bridge
+
+services:
+
+  php:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: supermarket_checkout_php
+    volumes:
+      - .:/sites/supermarket-checkout
+    ports:
+      - "9000:9000"
+    networks:
+      - supermarket_checkout
+
+  composer:
+    image: composer:latest
+    container_name: supermarket_checkout_composer
+    volumes:
+      - .:/sites/supermarket-checkout
+    working_dir: /sites/supermarket-checkout
+    depends_on:
+      - php
+    networks:
+      - supermarket_checkout

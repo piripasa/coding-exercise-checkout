@@ -1,0 +1,25 @@
+{
+  "name": "piripasa/supermarket-checkout",
+  "description": "Supermarket checkout that calculates the total price of a number of items.",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Zaman-A-Piri Pasa",
+      "email": "pollobcse05@gmail.com"
+    }
+  ],
+  "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  }
+}
