@@ -9,24 +9,54 @@ use App\Interfaces\CartInterface;
 
 class Cart implements CartInterface
 {
+    private $items;
 
+    /**
+     * Cart constructor.
+     */
+    public function __construct()
+    {
+        $this->items = [];
+    }
+
+    /**
+     * Get cart items
+     * @return array
+     */
     public function getItems(): array
     {
-        // TODO: Implement getItems() method.
+        return $this->items;
     }
 
+    /**
+     * Add a item to cart
+     * @param Item $item
+     */
     public function addItem(Item $item)
     {
-        // TODO: Implement addItem() method.
+        $this->items[] = $item;
     }
 
+    /**
+     * Get cart item total price
+     * @return int
+     */
     public function subTotal()
     {
-        // TODO: Implement subTotal() method.
+        $total = 0;
+        foreach ($this->items as $item) {
+            $total += $item->getUnitPrice();
+        }
+
+        return $total;
     }
 
+    /**
+     * Get cart item count
+     * @return int
+     */
     public function itemCount()
     {
-        // TODO: Implement itemCount() method.
+        return count($this->items);
     }
 }
